@@ -1,0 +1,19 @@
+body
+{
+	position: relative;
+	font-family: Arial;
+}
+
+.title
+{
+	font-size: 48px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.display
+{
+	border: 1px solid #000000;
+	width: 1600px;
+	height: 800px;
+}
