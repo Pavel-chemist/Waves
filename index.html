@@ -12,8 +12,23 @@
     <div class="title">
 	  Oscillator model
 	</div>
-    <canvas class="display" id="wave_display" width="1600" height="800"></canvas>
+    <canvas class="display" id="wave_display" width="800" height="400"></canvas>
 
+	<div class="PI_calculator">
+		<div class="PiCalc_top">
+			<div>Step size:</div> 
+			<input id="step_size">
+			<div class="button" id="calculate_Pi">
+				get Pi
+			</div>
+		</div>
+		
+		<div>
+			<div class="label">calculated value of Pi</div><div class="number_dispay" id="calc_pi_val">&nbsp;</div>
+			<div class="label">real value of Pi</div><div class="number_dispay" id="calc_pi_real">&nbsp;</div>
+			<div class="label">difference</div><div class="number_dispay" id="calc_pi_error">&nbsp;</div>
+		</div>
+	</div>
 	
 	
   </body>
