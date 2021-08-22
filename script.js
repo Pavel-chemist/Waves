@@ -5,6 +5,7 @@ $(function()
 	
 	let $Window = $(window);
 	let $Display = $('#wave_display');
+	
 	let DiagramCtx = $Display[0].getContext("2d");
 	
 	
@@ -77,8 +78,12 @@ $(function()
 	
 	let controls = 
 	{
-		'calculate_Pi':	function() { console.log('button "Get Pi" was clicked'); PiCalc(); }
+		'calculate_Pi':	function(ev) { PiCalc(); },
+		'wave_display': function(ev) { console.log('click on display'); DrawOnCanvas(ev); },
 	};
+	
+	
+	
 	
 	
 	function CalculatePiWithPendulum (step) 
@@ -148,84 +153,67 @@ $(function()
 	}
 	
 	
-	
-	// DrawSpectrometerDiagram( DiagramCtx );
-	
-	
-	/*
-	function DrawSpectrometerDiagram( CanvasCtx )
+	function DrawOnCanvas(ev)
 	{
-		CanvasCtx.clearRect(0, 0, base.width, base.height);
-		
-		DotGrid( CanvasCtx, 1*mm, '#c0c0c0', base.width, base.height, 2 );
-		DotGrid( CanvasCtx, 5*mm, '#c0c0c0', base.width, base.height, 4 );
-		DotGrid( CanvasCtx, 10*mm, '#c0c0c0', base.width, base.height, 8 );
-		DotGrid( CanvasCtx, 10*mm, '#000000', base.width, base.height, 2 );
-		
-		CanvasCtx.lineWidth = linewidth;
-		CanvasCtx.strokeStyle = '#000000';		
-		CanvasCtx.beginPath();	
-		CanvasCtx.arc( pivot.x, pivot.y, 25*mm, 0, 2*Math.PI, true );
-		CanvasCtx.stroke();
-		CanvasCtx.closePath();
-		
-		DrawApertures( CanvasCtx )
-		
-		DrawShape( DiagramCtx, collimatingLensShape, { x: 0, y: CRY, angle: 180*deg }, collimatingLensDistance );
-		collimatingLens.plane = 
-		{
-			a: Infinity,
-			b: CRY,
-			center:
-			{
-				x: collimatingLensDistance,
-				y: CRY
-			}
-		};
-		
-	//	console.log(collimatingLens);
-		
-		let rays = DrawIncomingRays( DiagramCtx, numOfMarginalRayPairs );
-		
+		let width = 800, height = 400;
+		let ImageData = DiagramCtx.createImageData(width, height);
+		let red = 0, green = 1, blue = 2, alpha = 3;
+		let pixelSize = 16;
 			
-		let gratingLine = DrawGrating( DiagramCtx );
+		let localXPos = ev.pageX - $Display.offset().left;
+		let localYPos = ev.pageY - $Display.offset().top;
+		
+		PrepareCanvas(ImageData, 240, 240, 240, 255);
 		
 		
-		
-		raysOnSensor = []; //clearing up an array
-		
-		cameraLens.plane = DrawShape( DiagramCtx, cameraLensShape, pivot, cameraDistance - 15*mm );
-		
-		sensor.plane = 
+		for (let j = 0; j < height; j++)
 		{
-			a: cameraLens.plane.a,
-			b: cameraLens.plane.b + sensor.distanceFromLens / ( Math.cos( Math.atan( cameraLens.plane.a ) ) ),
-			center: 
+			for (let i = 0; i < width; i++)
 			{
-				x: cameraLens.plane.center.x - sensor.distanceFromLens * ( Math.sin( Math.atan( cameraLens.plane.a ) ) ),
-				y: cameraLens.plane.center.y + sensor.distanceFromLens * ( Math.cos( Math.atan( cameraLens.plane.a ) ) )
+				const distance = Math.sqrt((i - localXPos) * (i - localXPos) + (j - localYPos) * (j - localYPos));
+			
+				
+				ImageData.data[(j*width+i)*4 + red] = Math.floor(255 * 16 / distance);
+				ImageData.data[(j*width+i)*4 + green] = Math.floor(255 * 12 / distance);
+				ImageData.data[(j*width+i)*4 + blue] = Math.floor(255 * 8 / distance);
+				/*
+				if ( j === localYPos )
+				{
+					ImageData.data[(j*width+i)*4 + red] = 255;
+					ImageData.data[(j*width+i)*4 + green] = 0;
+					ImageData.data[(j*width+i)*4 + blue] = 0;
+				}
+				
+				if ( i === localXPos )
+				{
+					ImageData.data[(j*width+i)*4 + red] = 255;
+					ImageData.data[(j*width+i)*4 + green] = 0;
+					ImageData.data[(j*width+i)*4 + blue] = 0;
+				}*/
+				
 			}
-		};
-	
-		DrawLine( CanvasCtx, { x: 0, y: cameraLens.plane.b }, { x: base.width, y: cameraLens.plane.a*base.width + cameraLens.plane.b}, 2, '#80b0ff', { width: 0, period: 0} );
-		DrawLine( CanvasCtx, { x: 0, y: sensor.plane.b }, { x: base.width, y: sensor.plane.a*base.width + sensor.plane.b}, 2, '#80ffb0', { width: 0, period: 0} );
-		
-		DrawDiffractedRays( DiagramCtx, gratingLine, rays );
-		
-		DrawShape( DiagramCtx, cameraShape, pivot, cameraDistance );
-		DrawShape( DiagramCtx, sensorShape, pivot, cameraDistance - 15*mm + sensor.distanceFromLens );
-	
-		DrawCircle( CanvasCtx, sensor.plane.center, 0.5*mm, '#000000' );
-		DrawCircle( CanvasCtx, sensor.plane.center, 0.25*mm, '#ff0000' );
-	
-		if ( renderRayImage )
-		{
-			RenderRays( CanvasCtx );
 		}
 		
-		FillDisplayValues();
+		
+		DiagramCtx.putImageData(ImageData, 0, 0);	
 	}
-	*/
+	
+	function PrepareCanvas ( ImageData, red, green, blue, alpha )
+	{
+		for ( let i = 0; i < ImageData.data.length/4; i++ )
+		{
+			ImageData.data[i*4 + 0] = red;
+			ImageData.data[i*4 + 1] = green;
+			ImageData.data[i*4 + 2] = blue;
+			ImageData.data[i*4 + 3] = alpha;
+		}
+	}
+
+
+	function CalculatePotentialField (distance)
+	{
+		return 1/distance;
+	}
 	
 	function DotGrid( CanvasCtx, period, color, width, height, dotSize )
 	{
@@ -390,29 +378,37 @@ $(function()
 		switch(id)
 		{
 			case 'calculate_Pi': 
+			case 'wave_display':
 			return true;
 
 			default: return false;
 		}
 	}
 	
-	function ClickHandler( $target )
+	function ClickHandler( ev )
 	{	
-	//	console.log('click was on', $target.attr('id'));
-	//	console.log('input is: ', $StepSize.val());
-		if (FindInList($target.attr('id')))
+		if (FindInList($(ev.target).attr('id')))
 		{
-			controls[$target.attr('id')]();	
+			controls[$(ev.target).attr('id')](ev);	
 		}
-		
-	//	CalculatePiWithPendulum();
-	//	DrawSpectrometerDiagram( DiagramCtx );		
+	}
+	
+	function MoveHandler( ev )
+	{	
+		if (FindInList($(ev.target).attr('id')))
+		{
+			controls[$(ev.target).attr('id')](ev);	
+		}
 	}
 	
 	
 	
 	$Window.on('click', function(ev){
-		ClickHandler ( $(ev.target) );
+		ClickHandler (ev);
+	});
+	
+	$Window.on('mousemove', function(ev){
+		MoveHandler (ev);
 	});
 
 })
