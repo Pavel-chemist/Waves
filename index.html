@@ -10,23 +10,24 @@
   
   <body>
     <div class="title">
-	  Oscillator model
+	  Waves
 	</div>
-    <canvas class="display" id="wave_display" width="800" height="400"></canvas>
+	<div class="project_frame">
+		<div class="sub-project_switcher">
+			<label for="sp-select">Choose a sub-project:</label>
 
-	<div class="PI_calculator">
-		<div class="PiCalc_top">
-			<div>Step size:</div> 
-			<input id="step_size">
-			<div class="button" id="calculate_Pi">
-				get Pi
+			<select name="sub-project" id="sp-select" class="sub-project_selector">
+				<option value="">-- Please choose a sub-project --</option>
+				<option value="PiCalc">Pi calculator</option>
+				<option value="dragSun">Draggable Sun</option>
+			</select>
+			<div class="button" id="sub-project_switcher">
+				Switch
 			</div>
 		</div>
-		
-		<div>
-			<div class="label">calculated value of Pi</div><div class="number_dispay" id="calc_pi_val">&nbsp;</div>
-			<div class="label">real value of Pi</div><div class="number_dispay" id="calc_pi_real">&nbsp;</div>
-			<div class="label">difference</div><div class="number_dispay" id="calc_pi_error">&nbsp;</div>
+		<canvas class="display" id="wave_display" width="1000" height="500"></canvas>
+		<div class="sub-project_controls" id="control_panel">
+			placeholder for control elements
 		</div>
 	</div>
 	
@@ -34,7 +35,10 @@
   </body>
   
   <script src="jquery-3.5.1.js"></script>
+  <script src="constants.js"></script>
+ <!-- <script src="old_drawing_functions.js"></script> -->
+  <script src="piCalc.js"></script>
   <script src="script.js"></script>
   
-  
+    
 </html>  
