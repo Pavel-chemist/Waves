@@ -8,5 +8,6 @@ const $ControlPanel = $('#control_panel');
 const DiagramCtx = $Display[0].getContext("2d");
 
 
-
+const canvasWidth = 1000;
+const canvasHeight = 500;
 

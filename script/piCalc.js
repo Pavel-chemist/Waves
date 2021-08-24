@@ -1,3 +1,5 @@
+const dotArray = [];
+
 function InitiatePiCalc()
 {
 	const piCalcControlsHtml = `<div class="PiCalc_top">
@@ -33,20 +35,25 @@ function CalculatePiWithPendulum (step)
 	let calculatedPi = 0;
 	
 	X1 = X0 + step * V0;
-	V1 = V0 - step * X0;
+	V1 = V0 - step * X1;
 	t1 = t0 + step;
 	
-	while (X1 >= 0)
+	dotArray.length = 0;
+	dotArray.push({x: t0, y: X0}, {x: t1, y: X1});
+	
+	while (X1 > 0)
 	{
 		X0 = X1;
 		V0 = V1;
 		t0 = t1;
 		
 		X1 = X0 + step * V0;
-		V1 = V0 - step * X0;
+		V1 = V0 - step * X1;
 		t1 = t0 + step;
+		
+		dotArray.push({x: t1, y: X1});
 	}
-	
+
 	let a = (X1 - X0) / step;
 	let b = X0 - a * t0;
 	calculatedPi = -b / a;
@@ -57,7 +64,6 @@ function CalculatePiWithPendulum (step)
 
 function PiCalc ()
 {
-	console.log('PiCalc is working');
 	$('#calc_pi_real').text(Math.PI);
 	let $StepSize = $('#step_size');
 	let $OutputValue = $('#calc_pi_val');
@@ -66,18 +72,23 @@ function PiCalc ()
 	let step = +$StepSize.val();
 	let calculatedPiValue;
 	
-	console.log('step is ', step);
+	let ImageData = DiagramCtx.createImageData(canvasWidth, canvasHeight);
 	
 	if (step > 0 && step <= 1)
 	{
 		calculatedPiValue = CalculatePiWithPendulum(step);
 		
 		$OutputValue.text(calculatedPiValue);
-		$ErrorDisplay.text(calculatedPiValue - Math.PI);
+		$ErrorDisplay.text(Math.PI - calculatedPiValue);
+		
+		
 	}
 	else
 	{
 		console.log('step size should be between 0 and 1, excluding 0');
 	}
+
+	DrawSimpleGraph ( ImageData, dotArray, {startX: -0.1, endX: 3.2, startY: -0.5, endY: 1.25}, true, true );
 	
+	DiagramCtx.putImageData(ImageData, 0, 0);
 }

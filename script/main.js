@@ -12,7 +12,7 @@ $(function()
 	
 	function SwitchSubProject()
 	{
-		console.log('Trying to switch to ', $ProjectSelector.val());
+		console.log('Switching to ', $ProjectSelector.val());
 		
 		switch ($ProjectSelector.val())
 		{
@@ -24,7 +24,7 @@ $(function()
 
 	function DrawOnCanvas(ev)
 	{
-		let width = 1000, height = 500;
+		let width = canvasWidth, height = canvasHeight;
 		let ImageData = DiagramCtx.createImageData(width, height);
 		let red = 0, green = 1, blue = 2, alpha = 3;
 		let pixelSize = 16;
@@ -51,18 +51,6 @@ $(function()
 		
 		DiagramCtx.putImageData(ImageData, 0, 0);	
 	}
-	
-	function PrepareCanvas ( ImageData, red, green, blue, alpha )
-	{
-		for ( let i = 0; i < ImageData.data.length/4; i++ )
-		{
-			ImageData.data[i*4 + 0] = red;
-			ImageData.data[i*4 + 1] = green;
-			ImageData.data[i*4 + 2] = blue;
-			ImageData.data[i*4 + 3] = alpha;
-		}
-	}
-
 
 	
 	function FindInList( id )
