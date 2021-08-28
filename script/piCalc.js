@@ -88,7 +88,7 @@ function PiCalc ()
 		console.log('step size should be between 0 and 1, excluding 0');
 	}
 
-	DrawSimpleGraph ( ImageData, dotArray, {startX: -0.1, endX: 3.2, startY: -0.5, endY: 1.25}, true, true );
+	DrawSimpleGraph ( ImageData, dotArray, {startX: -0.1, endX: 3.2, startY: -1.25, endY: 1.25}, true, true );
 	
 	DiagramCtx.putImageData(ImageData, 0, 0);
 }
