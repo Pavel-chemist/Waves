@@ -1,7 +1,11 @@
 const dotArray = [];
+const ImageData = DiagramCtx.createImageData(canvasWidth, canvasHeight);
 
 function InitiatePiCalc()
 {
+	allowMouseClickOnDisplay = false;
+	allowMouseMoveOnDisplay = false;
+	
 	const piCalcControlsHtml = `<div class="PiCalc_top">
 		<div>Step size:</div> 
 		<input id="step_size">
@@ -17,6 +21,9 @@ function InitiatePiCalc()
 	</div>`;
 	
 	$ControlPanel.html(piCalcControlsHtml);
+	
+	DrawSimpleGraph ( ImageData, [], {startX: -0.1, endX: 3.2, startY: -0.25, endY: 1.25}, true, true );	
+	DiagramCtx.putImageData(ImageData, 0, 0);
 }
 
 function CalculatePiWithPendulum (step) 
@@ -72,7 +79,7 @@ function PiCalc ()
 	let step = +$StepSize.val();
 	let calculatedPiValue;
 	
-	let ImageData = DiagramCtx.createImageData(canvasWidth, canvasHeight);
+	
 	
 	if (step > 0 && step <= 1)
 	{

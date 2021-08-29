@@ -10,7 +10,6 @@ function DrawSimpleGraph ( ImageData, graphDataArray, graphBoundaries, isConnect
 // otherwise they'll depend on graphBoundaries and actual canvas size
 // 	
 // 
-	console.log('starting drawing graph');
 	
 	const backgroundColor = { red: 240, green: 244, blue: 248, alpha: 255 };
 	const dotColor = { red: 0, green: 0, blue: 0, alpha: 255 };
@@ -29,29 +28,27 @@ function DrawSimpleGraph ( ImageData, graphDataArray, graphBoundaries, isConnect
 	if ( isEquiscaled )
 	{
 		let newScale;
-		let message = "";
+		
 		if ( horisontalScale > verticalScale )
 		{			
-			message += "hor>vert, ";
+		
 			newScale = horisontalScale;
 			let vertSpan2 = newScale * canvasHeight;
-			message += "old vert span is " + vertSpan + ", and new is " + vertSpan2;
+		
 			graphBoundaries.startY = graphBoundaries.startY - (vertSpan2-vertSpan)/2;
 			graphBoundaries.endY = graphBoundaries.endY + (vertSpan2-vertSpan)/2;
 			
 		}
 		else
 		{
-			message += "vert>hor, ";
+		
 			newScale = verticalScale;
 			let horSpan2 = newScale * canvasWidth;
-			message += "old hor span is " + horSpan + ", and new is " + horSpan2;
+		
 			graphBoundaries.startX = graphBoundaries.startX - (horSpan2-horSpan)/2;
 			graphBoundaries.endX = graphBoundaries.endX + (horSpan2-horSpan)/2;
 		}
 		
-		console.log(message);
-		console.log(`Graph boundaries:\nX -- between ${graphBoundaries.startX} and ${graphBoundaries.endX};\nY -- between ${graphBoundaries.startY} and ${graphBoundaries.endY}.`);
 		horisontalScale = newScale;
 		verticalScale =  newScale;
 	}
@@ -126,7 +123,6 @@ function drawAxesFor2dGraph (ImageData, graphBoundaries, colors, scales)
 	
 	let gridLineEnds;
 	let gridLineX = firstVertGridLine - graphBoundaries.startX;
-//	let gridLineXnum = 
 	let gridLineY = firstHorGridLine - graphBoundaries.startY;
 
 	while ( gridLineX < horSpanReal )
@@ -137,7 +133,6 @@ function drawAxesFor2dGraph (ImageData, graphBoundaries, colors, scales)
 			endX: Math.floor(gridLineX / scales.hor),
 			endY: canvasHeight,
 		};
-		console.log(`gridLineX: ${gridLineX}, on canvas: ${Math.floor(gridLineX / scales.hor)}`);
 		PutLineOnCanvas(ImageData, colors.secondary, gridLineEnds);
 		gridLineX += Math.pow(10, horGridScale);
 	}
@@ -150,7 +145,6 @@ function drawAxesFor2dGraph (ImageData, graphBoundaries, colors, scales)
 			endX: canvasWidth,
 			endY: Math.floor(gridLineY / scales.vert),
 		};
-		console.log(`gridLineY: ${gridLineY}, on canvas: ${Math.floor(gridLineY / scales.vert)}`);
 		PutLineOnCanvas(ImageData, colors.secondary, gridLineEnds);
 		gridLineY += Math.pow(10, vertGridScale);
 	}
@@ -168,7 +162,7 @@ function drawAxesFor2dGraph (ImageData, graphBoundaries, colors, scales)
 			endX: Math.floor(tickX / scales.hor),
 			endY: horAxis + 5,
 		};
-	//	console.log(`tickX: ${tickX}, on canvas: ${Math.floor(tickX / scales.hor)}`);
+	
 		PutLineOnCanvas(ImageData, colors.main, gridLineEnds);
 		tickX += Math.pow(10, (horGridScale-1));
 	}
@@ -181,7 +175,7 @@ function drawAxesFor2dGraph (ImageData, graphBoundaries, colors, scales)
 			endX: vertAxis + 5,
 			endY: Math.floor(tickY / scales.vert),
 		};
-	//	console.log(`tickY: ${tickY}, on canvas: ${Math.floor(tickY / scales.vert)}`);
+	
 		PutLineOnCanvas(ImageData, colors.main, gridLineEnds);
 		tickY += Math.pow(10, (vertGridScale-1));
 	}

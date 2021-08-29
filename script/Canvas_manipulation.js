@@ -9,11 +9,6 @@ function FillCanvas ( ImageData, color )
 		ImageData.data[i*4 + 0] = color.red;
 		ImageData.data[i*4 + 1] = color.green;
 		ImageData.data[i*4 + 2] = color.blue;
-		/*
-		ImageData.data[i*4 + 0] = i;
-		ImageData.data[i*4 + 1] = Math.floor(i/256);
-		ImageData.data[i*4 + 2] = Math.floor(i/(4*256));
-		*/
 		ImageData.data[i*4 + 3] = color.alpha;
 	}
 }

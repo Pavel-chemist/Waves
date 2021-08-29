@@ -12,20 +12,20 @@
     <div class="title">
 	  Waves
 	</div>
-	<div class="project_frame">
+	<div class="project_frame" id="frame">
 		<div class="sub-project_switcher">
 			<label for="sp-select">Choose a sub-project:</label>
 
 			<select name="sub-project" id="sp-select" class="sub-project_selector">
 				<option value="">-- Please choose a sub-project --</option>
 				<option value="PiCalc">Pi calculator</option>
-				<option value="dragSun">Draggable Sun</option>
+				<option value="draggableItem">Draggable Sun</option>
 			</select>
 			<div class="button" id="sub-project_switcher">
 				Switch
 			</div>
 		</div>
-		<canvas class="display" id="wave_display" width="1000" height="500"></canvas>
+		<canvas class="display" id="wave_display" width="1000" height="800"></canvas>
 		<div class="sub-project_controls" id="control_panel">
 			placeholder for control elements
 		</div>
@@ -40,6 +40,7 @@
   <script src="script/Canvas_manipulation.js"></script>
   <script src="script/simpleGraph.js"></script>
   <script src="script/piCalc.js"></script>
+  <script src="script/dragItem.js"></script>
   <script src="script/main.js"></script>
   
     
