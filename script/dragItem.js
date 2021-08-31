@@ -1,6 +1,7 @@
 const draggableItem = {
+
 	
-	imageData: DiagramCtx.createImageData(canvasWidth, canvasWidth),
+	imageData: DiagramCtx.createImageData(WIDTH, HEIGHT),
 	backgroundColor: {red: 255, green: 250, blue: 240, alpha: 255},
 	
 	
@@ -12,16 +13,13 @@ const draggableItem = {
 		$ControlPanel.html('This is just a demo of object on canvas that follows the mouse pointer.');
 		
 		
-	//	FillCanvas ( this.imageData, this.backgroundColor );
-		fillWithGradient ( this.imageData );
+	//	canvas.fill ( this.imageData, this.backgroundColor );
+		canvas.gradientFill ( this.imageData );
 		DiagramCtx.putImageData(this.imageData, 0, 0);
 	},
 
 	update: function(ev)
 	{
-
-		const width = canvasWidth, height = canvasHeight;
-		
 		const pixelSize = 16;
 
 		const fillColor = {red: 50, green: 200, blue: 100, alpha: 255};
@@ -45,17 +43,28 @@ const draggableItem = {
 		}	
 		*/
 		
-		FillCanvas ( this.imageData, this.backgroundColor );
+		canvas.fill ( this.imageData, this.backgroundColor );
 		
 		for (let j = localYPos - pixelSize; j < localYPos + pixelSize; j++)
 		{
 			for (let i = localXPos - pixelSize; i < localXPos + pixelSize; i++)
 			{
-				PutDotOnCanvas( this.imageData, fillColor, i, j );
+				canvas.putDot( this.imageData, fillColor, i, j );
 			}
 		}
 		
 		DiagramCtx.putImageData(this.imageData, 0, 0);
 				
+	},
+
+	handleEvent: function(ev) {
+	//	console.log(`DragItem is handling event: `);
+	//	console.log(`target: ${ev.target.id},  type: ${ev.type};\nCoordinates: x: ${ev.pageX}, y: ${ev.pageY}`);
+	
+		if ( ev.target.id === 'wave_display' && ev.type === 'mousemove' ) {
+			this.update(ev);
+		}
+	
+	
 	}
 }

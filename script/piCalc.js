@@ -1,13 +1,19 @@
 const pi =
 {
+//	internal constants:	
+	buttonID: 'getPiButton',
+	usedEventType: 'click',
+
+//internal variables
 	dotArray: [],
-	ImageData: DiagramCtx.createImageData(canvasWidth, canvasHeight),
+	ImageData: DiagramCtx.createImageData(WIDTH, HEIGHT),
 	
 	$RealPi: {},
 	$StepSize: {},
 	$OutputValue: {},
 	$ErrorDisplay: {},
 
+//	methods
 	initiatePiCalc: function()
 	{
 		allowMouseClickOnDisplay = false;
@@ -16,7 +22,7 @@ const pi =
 		const piCalcControlsHtml = `<div class="PiCalc_top">
 			<div>Step size:</div> 
 			<input id="step_size">
-			<div class="button" id="calculate_Pi">
+			<div class="button" id="${this.buttonID}">
 				get Pi
 			</div>
 		</div>
@@ -34,7 +40,7 @@ const pi =
 		this.$OutputValue = $('#calc_pi_val');
 		this.$ErrorDisplay = $('#calc_pi_error');
 		
-		DrawSimpleGraph ( this.ImageData, [], {startX: -0.1, endX: 3.2, startY: -0.25, endY: 1.25}, true, true );	
+		simpleGraph.draw ( this.ImageData, [], {startX: -0.1, endX: 3.2, startY: -0.25, endY: 1.25}, true, true );	
 		DiagramCtx.putImageData(this.ImageData, 0, 0);
 	},
 
@@ -102,9 +108,20 @@ const pi =
 			console.log('step size should be between 0 and 1, excluding 0');
 		}
 
-		DrawSimpleGraph ( this.ImageData, this.dotArray, {startX: -0.1, endX: 3.2, startY: -0.25, endY: 1.25}, true, true );
+		simpleGraph.draw ( this.ImageData, this.dotArray, {startX: -0.1, endX: 3.2, startY: -0.25, endY: 1.25}, true, true );
 		
 		DiagramCtx.putImageData(this.ImageData, 0, 0);
+	},
+
+	handleEvent: function(ev) {
+	//	console.log(`Pic calc is handling event: `);
+	//	console.log(`target: ${ev.target.id},  type: ${ev.type};\nCoordinates: x: ${ev.pageX}, y: ${ev.pageY}`);
+
+		if ( ev.target.id === this.buttonID && ev.type === this.usedEventType ) {
+			this.piCalc();
+		}
+
+
 	}
 }
 
