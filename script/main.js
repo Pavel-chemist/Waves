@@ -1,16 +1,15 @@
 "use strict"
 
+//import { pi } from './piCalc';
+
 $(function()
 {
-
-
 	const controls = 
 	{
-		'calculate_Pi':	function(ev) { PiCalc(); },
-		'wave_display': function(ev) { DragItem(ev); },
+		'calculate_Pi':	function(ev) { pi.piCalc(); },
+		'wave_display': function(ev) { draggableItem.update(ev); },
 		'sub-project_switcher': function(ev) { SwitchSubProject(); },
 	};
-	
 	
 	function SwitchSubProject()
 	{
@@ -18,8 +17,8 @@ $(function()
 		
 		switch ($ProjectSelector.val())
 		{
-			case 'PiCalc': InitiatePiCalc(); break;
-			case 'draggableItem': InitiateDraggableItem(); break;
+			case 'PiCalc': pi.initiatePiCalc(); break;
+			case 'draggableItem': draggableItem.initiate(); break;
 			default: console.log('switching to ' + $ProjectSelector.val() + ' haven\'t done yet...');
 		}
 	}
@@ -50,6 +49,8 @@ $(function()
 		{
 			controls[$(ev.target).attr('id')](ev);	
 		}
+		
+		
 	}
 	
 	

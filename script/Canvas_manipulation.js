@@ -13,6 +13,91 @@ function FillCanvas ( ImageData, color )
 	}
 }
 
+function fillWithGradient ( ImageData )
+{
+	//color gradient to span values from -512 to 511
+	
+	for (let j = 0; j < canvasHeight; j++)
+	{
+		for (let i = 0; i < canvasWidth; i++)
+		{
+			const fillColor = gradientLookup(i - canvasWidth/2);
+			ImageData.data[(j*canvasWidth+i)*4 + 0] = fillColor.red;
+			ImageData.data[(j*canvasWidth+i)*4 + 1] = fillColor.green;
+			ImageData.data[(j*canvasWidth+i)*4 + 2] = fillColor.blue;
+			ImageData.data[(j*canvasWidth+i)*4 + 3] = fillColor.alpha;
+			
+		}
+	}
+}
+
+function gradientLookup (offset)
+{
+	const baseColor = {red: 128, green: 128, blue: 128, alpha: 255};	
+	
+	if ( offset >= -128 && offset < 128 )
+	{
+		baseColor.red+= offset;
+		baseColor.blue-= offset;
+		
+		return baseColor;
+	}
+	
+	if ( offset >= -255 && offset < 255 )
+	{
+		if ( offset > 0 )
+		{
+			baseColor.red = 255;
+			baseColor.blue = 0;
+			baseColor.green = offset;
+		}
+		else
+		{
+			baseColor.red = 0;
+			baseColor.blue = 255;
+			baseColor.green = 255 + offset;
+		}
+		
+		return baseColor;
+	}
+	
+	if ( offset >= -512 && offset < 512 )
+	{
+		if ( offset > 0 )
+		{
+			baseColor.red = 255;
+			baseColor.blue = offset - 256;
+			baseColor.green = 255;
+		}
+		else
+		{
+			baseColor.red = 0;
+			baseColor.blue = 512 + offset;
+			baseColor.green = 0;
+		}
+		
+		return baseColor;
+	}
+	
+	if ( offset < -512 || offset >= 512 )
+	{
+		if ( offset > 0 )
+		{
+			baseColor.red = 255;
+			baseColor.blue = 255;
+			baseColor.green = 255;
+		}
+		else
+		{
+			baseColor.red = 0;
+			baseColor.blue = 0;
+			baseColor.green = 0;
+		}
+		
+		return baseColor;
+	}
+}
+
 function PutDotOnCanvas ( ImageData, color, x, y )
 {
 //	color =	{red, green, blue, alpha}
