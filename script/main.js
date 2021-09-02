@@ -8,37 +8,53 @@ $(function()
 
 	function SwitchSubProject()
 	{
-		console.log('Switching to ', currentSubProjectId);
-		
-		switch (currentSubProjectId)
-		{
-			case 'PiCalc': pi.initiatePiCalc(); break;
-			case 'draggableItem': draggableItem.initiate(); break;
-			default: console.log('switching to ' + currentSubProjectId + ' haven\'t done yet...');
+		console.log(`Switching to "${currentSubProjectId}"`);
+		const sP = currentSubProjectId ? subprojectList.find(subProject => subProject.value === currentSubProjectId).objectName : '';
+
+		if (sP) {
+			return Function(`"use strict"; ${sP}.initiate();`)();
 		}
 	}
 	
 	function eventDispatcher (ev) {
-		switch (currentSubProjectId)
-		{
-			case 'PiCalc': pi.handleEvent(ev); break;
-			case 'draggableItem': draggableItem.handleEvent(ev); break;
-			default: console.log(currentSubProjectId + ' is not handling events');
+		const sP = currentSubProjectId ? subprojectList.find(subProject => subProject.value === currentSubProjectId).objectName : '';
+
+		if (sP) {
+			return Function('passedEvent', `"use strict"; ${sP}.handleEvent(passedEvent);`)(ev);
 		}
+
 	}
-	
-	
-	$('#sub-project_switcher').on('click', function(){
+
+	$Switch.on('click', function(){
 		currentSubProjectId = $ProjectSelector.val();
 		SwitchSubProject();
-	})
-
-	$Window.on('click', function(ev){
-		eventDispatcher (ev);
 	});
-	
-	$Window.on('mousemove', function(ev){
+
+	$ControlPanel.on('click', function(ev){
 		eventDispatcher (ev);
 	});
 
+	$Display.on('click', function(ev){
+		eventDispatcher (ev);
+	});
+
+	$Display.on('mouseenter', function(ev){
+		eventDispatcher (ev);
+	});
+
+	$Display.on('mousedown', function(ev){
+		eventDispatcher (ev);
+	});
+
+	$Display.on('mousemove', function(ev){
+		eventDispatcher (ev);
+	});
+
+	$Display.on('mouseup', function(ev){
+		eventDispatcher (ev);
+	});
+
+	$Display.on('mouseleave', function(ev){
+		eventDispatcher (ev);
+	});
 })

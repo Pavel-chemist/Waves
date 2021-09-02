@@ -5,6 +5,7 @@ const pi =
 	usedEventType: 'click',
 
 //internal variables
+
 	dotArray: [],
 	ImageData: DiagramCtx.createImageData(WIDTH, HEIGHT),
 	
@@ -14,10 +15,8 @@ const pi =
 	$ErrorDisplay: {},
 
 //	methods
-	initiatePiCalc: function()
+	initiate: function()
 	{
-		allowMouseClickOnDisplay = false;
-		allowMouseMoveOnDisplay = false;
 		
 		const piCalcControlsHtml = `<div class="PiCalc_top">
 			<div>Step size:</div> 
@@ -116,7 +115,10 @@ const pi =
 	handleEvent: function(ev) {
 	//	console.log(`Pic calc is handling event: `);
 	//	console.log(`target: ${ev.target.id},  type: ${ev.type};\nCoordinates: x: ${ev.pageX}, y: ${ev.pageY}`);
-
+/*		if (ev.type === this.usedEventType) {
+			console.log('event: ', ev);
+		}
+*/
 		if ( ev.target.id === this.buttonID && ev.type === this.usedEventType ) {
 			this.piCalc();
 		}

@@ -3,13 +3,13 @@ const draggableItem = {
 	
 	imageData: DiagramCtx.createImageData(WIDTH, HEIGHT),
 	backgroundColor: {red: 255, green: 250, blue: 240, alpha: 255},
-	
-	
+	itemColor: {red: 50, green: 200, blue: 100, alpha: 255},
+	itemSize: 16,
+
+	isMouseDown: false,
+
 	initiate: function()
-	{
-	//	allowMouseClickOnDisplay = true;
-		allowMouseMoveOnDisplay = true;
-		
+	{		
 		$ControlPanel.html('This is just a demo of object on canvas that follows the mouse pointer.');
 		
 		
@@ -20,12 +20,9 @@ const draggableItem = {
 
 	update: function(ev)
 	{
-		const pixelSize = 16;
 
-		const fillColor = {red: 50, green: 200, blue: 100, alpha: 255};
-			
-		const localXPos = ev.pageX - $Display.offset().left;
-		const localYPos = ev.pageY - $Display.offset().top;
+		const localXPos = ev.offsetX;
+		const localYPos = ev.offsetY;
 		
 		/*
 		for (let j = 0; j < height; j++)
@@ -45,11 +42,14 @@ const draggableItem = {
 		
 		canvas.fill ( this.imageData, this.backgroundColor );
 		
-		for (let j = localYPos - pixelSize; j < localYPos + pixelSize; j++)
+		for (let j = localYPos - this.itemSize; j < localYPos + this.itemSize; j++)
 		{
-			for (let i = localXPos - pixelSize; i < localXPos + pixelSize; i++)
+			for (let i = localXPos - this.itemSize; i < localXPos + this.itemSize; i++)
 			{
-				canvas.putDot( this.imageData, fillColor, i, j );
+				if (Math.sqrt((i-localXPos)*(i-localXPos)+(j-localYPos)*(j-localYPos)) < this.itemSize) 
+				{
+					canvas.putDot( this.imageData, this.itemColor, i, j );
+				}				
 			}
 		}
 		
@@ -61,8 +61,15 @@ const draggableItem = {
 	//	console.log(`DragItem is handling event: `);
 	//	console.log(`target: ${ev.target.id},  type: ${ev.type};\nCoordinates: x: ${ev.pageX}, y: ${ev.pageY}`);
 	
-		if ( ev.target.id === 'wave_display' && ev.type === 'mousemove' ) {
+		if ( this.isMouseDown && ev.type === 'mousemove' ) {
 			this.update(ev);
+		}
+
+		if ( ev.type === 'mousedown' ) {
+			this.isMouseDown = true;
+			this.update(ev);
+		} else if ( ev.type === 'mouseup' ) {
+			this.isMouseDown = false;
 		}
 	
 	
