@@ -13,7 +13,13 @@ const subprojectList = [
         value: 'draggableItem',
         name: 'Draggable object',
         objectName: 'draggableItem'
-    }    
+    },
+    {
+        value: 'pendulum',
+        name: 'Pendulum model',
+        objectName: 'pendulum'
+    }
+    
 ];
 
 const displayId = 'display';

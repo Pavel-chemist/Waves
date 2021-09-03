@@ -11,34 +11,15 @@ const draggableItem = {
 	initiate: function()
 	{		
 		$ControlPanel.html('This is just a demo of object on canvas that follows the mouse pointer.');
-		
-		
-	//	canvas.fill ( this.imageData, this.backgroundColor );
+
 		canvas.gradientFill ( this.imageData );
 		DiagramCtx.putImageData(this.imageData, 0, 0);
 	},
 
 	update: function(ev)
 	{
-
 		const localXPos = ev.offsetX;
 		const localYPos = ev.offsetY;
-		
-		/*
-		for (let j = 0; j < height; j++)
-		{
-			for (let i = 0; i < width; i++)
-			{
-				const distance = Math.sqrt((i - localXPos) * (i - localXPos) + (j - localYPos) * (j - localYPos));
-
-				this.imageData.data[(j*width+i)*4 + red] = Math.floor(255 * 8 / distance);
-				this.imageData.data[(j*width+i)*4 + green] = Math.floor(255 * 12 / distance);
-				this.imageData.data[(j*width+i)*4 + blue] = Math.floor(255 * 16 / distance);
-				this.imageData.data[(j*width+i)*4 + alpha] = 255;
-				
-			}
-		}	
-		*/
 		
 		canvas.fill ( this.imageData, this.backgroundColor );
 		
@@ -71,7 +52,5 @@ const draggableItem = {
 		} else if ( ev.type === 'mouseup' ) {
 			this.isMouseDown = false;
 		}
-	
-	
 	}
 }

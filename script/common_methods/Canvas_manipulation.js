@@ -102,6 +102,47 @@ const canvas = {
 		}	
 	},
 
+	drawBox: function(ImageData, origin, offsets, type, scale, sizes, colors) {
+	//  origin: x, y -- in original units
+	//  offsets: offX, offY -- in original units
+	//	type: centered, topleft
+	//  scale: units per pixel -- scaling between original units and pixels
+	//  sizes: width, height -- in original units
+	//  colors: borders, fill
+
+		const corners = {topLeft: {x: 0, y: 0}, topRight: {x: 0, y: 0}, bottomLeft: {x: 0, y: 0}, bottomRight: {x: 0, y: 0},};
+
+		if ( type === 'centered') {
+			corners.topLeft.x = corners.bottomLeft.x = Math.floor((origin.x + offsets.offX - sizes.width/2)/scale);
+			corners.topLeft.y = corners.topRight.y = Math.floor((origin.y + offsets.offY - sizes.height/2)/scale);
+
+			corners.topRight.x = corners.bottomRight.x = Math.floor((origin.x + offsets.offX + sizes.width/2)/scale);
+			corners.bottomLeft.y = corners.bottomRight.y = Math.floor((origin.y + offsets.offY + sizes.height/2)/scale);
+		} else {
+			corners.topLeft.x = corners.bottomLeft.x = Math.floor((origin.x + offsets.offX)/scale);
+			corners.topLeft.y = corners.topRight.y = Math.floor((origin.y + offsets.offY)/scale);
+
+			corners.topRight.x = corners.bottomRight.x = Math.floor((origin.x + offsets.offX + sizes.width)/scale);
+			corners.bottomLeft.y = corners.bottomRight.y = Math.floor((origin.y + offsets.offY + sizes.height)/scale);
+		}
+
+		if (colors.fill) {
+			for (let j = corners.topLeft.y; j < corners.bottomLeft.y; j++) {
+				for (let i = corners.topLeft.x; i < corners.topRight.x; i++) {
+					this.putDot(ImageData, colors.fill, i, j);
+				}
+			}
+		}
+
+		// ends = {startX, endX, startY, endY}
+		if (colors.borders) {
+			this.putLine(ImageData, colors.borders, {startX: corners.topLeft.x, startY: corners.topLeft.y, endX: corners.topRight.x, endY: corners.topRight.y});
+			this.putLine(ImageData, colors.borders, {startX: corners.topLeft.x, startY: corners.topLeft.y, endX: corners.bottomLeft.x, endY: corners.bottomLeft.y});
+			this.putLine(ImageData, colors.borders, {startX: corners.topRight.x, startY: corners.topRight.y, endX: corners.bottomRight.x, endY: corners.bottomRight.y});
+			this.putLine(ImageData, colors.borders, {startX: corners.bottomLeft.x, startY: corners.bottomLeft.y, endX: corners.bottomRight.x, endY: corners.bottomRight.y});
+		}
+	},
+
 	gradientLookup: function (offset)
 	{
 		const baseColor = {red: 128, green: 128, blue: 128, alpha: 255};	

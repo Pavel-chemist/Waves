@@ -115,15 +115,10 @@ const pi =
 	handleEvent: function(ev) {
 	//	console.log(`Pic calc is handling event: `);
 	//	console.log(`target: ${ev.target.id},  type: ${ev.type};\nCoordinates: x: ${ev.pageX}, y: ${ev.pageY}`);
-/*		if (ev.type === this.usedEventType) {
-			console.log('event: ', ev);
-		}
-*/
+
 		if ( ev.target.id === this.buttonID && ev.type === this.usedEventType ) {
 			this.piCalc();
 		}
-
-
 	}
 }
 
