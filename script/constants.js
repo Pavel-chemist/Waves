@@ -18,8 +18,12 @@ const subprojectList = [
         value: 'pendulum',
         name: 'Pendulum model',
         objectName: 'pendulum'
-    }
-    
+    },
+    {
+        value: 'chain',
+        name: 'Chain model',
+        objectName: 'chain'
+    }    
 ];
 
 const displayId = 'display';
